@@ -1,0 +1,88 @@
+services:
+  quickbite-user:
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    image: quickbite-user-service:latest
+    container_name: quickbite-user
+    ports:
+      - "8081:8081"
+    environment:
+      - DB_HOST=mysql-db
+      - DB_PORT=3306
+      - DB_NAME=quickbite_user_db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/quickbite_user_db?createDatabaseIfNotExist=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - quickbite-net
+    restart: unless-stopped
+
+  quickbite-restaurant:
+    build:
+      context: ./restaurant-service
+      dockerfile: Dockerfile
+    image: quickbite-restaurant-service:latest
+    container_name: quickbite-restaurant
+    ports:
+      - "8082:8082"
+    environment:
+      - DB_HOST=mysql-db
+      - DB_PORT=3306
+      - DB_NAME=quickbite_restaurant_db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/quickbite_restaurant_db?createDatabaseIfNotExist=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - quickbite-net
+    restart: unless-stopped
+
+  quickbite-order:
+    build:
+      context: ./order-service
+      dockerfile: Dockerfile
+    image: quickbite-order-service:latest
+    container_name: quickbite-order
+    ports:
+      - "8083:8083"
+    environment:
+      - DB_HOST=mysql-db
+      - DB_PORT=3306
+      - DB_NAME=quickbite_order_db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/quickbite_order_db?createDatabaseIfNotExist=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - quickbite-net
+    restart: unless-stopped
+
+  quickbite-notification:
+    build:
+      context: ./notification-service
+      dockerfile: Dockerfile
+    image: quickbite-notification-service:latest
+    container_name: quickbite-notification
+    ports:
+      - "8084:8084"
+    environment:
+      - DB_HOST=mysql-db
+      - DB_PORT=3306
+      - DB_NAME=quickbite_notification_db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/quickbite_notification_db?createDatabaseIfNotExist=true&useSSL=false
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root
+    networks:
+      - quickbite-net
+    restart: unless-stopped
+
+networks:
+  quickbite-net:
+    external: true
